@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Tools</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+
+        /* фон с размытием */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085") center/cover no-repeat;
+
+            filter: blur(25px);
+            z-index: -1;
+        }
+
+        .card {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+
+            padding: 50px 40px;
+            width: 90%;
+            max-width: 400px;
+
+            text-align: center;
+            color: white;
+
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 18px;
+
+            backdrop-filter: blur(10px);
+
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* адаптация под iPhone */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>📄 PDF Converter</h1>
+    <p>Быстро конвертируй изображения в PDF</p>
+
+    <a href="https://your-app.streamlit.app" target="_blank">
+        <button class="btn">🚀 Открыть</button>
+    </a>
+</div>
+
+</body>
+</html>
