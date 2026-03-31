@@ -6,13 +6,12 @@ import base64
 # 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# 2. Блок стилей: Светло-кофейный фон и Темно-синий текст
+# 2. Блок стилей
 st.markdown("""
     <style>
     /* Основной фон приложения (светло-кофейный) */
     .stApp {
         background-color: #F5E6D3 !important;
-        background-image: none !important;
     }
 
     /* Контейнер для интерфейса */
@@ -33,17 +32,15 @@ st.markdown("""
         font-size: 28px;
         font-weight: 800;
         margin-bottom: 25px;
-        text-align: center;
     }
 
     /* ЗОНА ЗАГРУЗКИ */
     div[data-testid="stFileUploader"] {
-        background-color: #EADBC8 !important; /* Чуть более темный кофейный для выделения зоны */
+        background-color: #EADBC8 !important;
         border: 2px dashed #1A3A5F !important;
         border-radius: 15px !important;
     }
     
-    /* Скрываем стандартный текст "Drag and Drop" */
     div[data-testid="stFileUploader"] section div {
         display: none !important;
     }
@@ -61,49 +58,40 @@ st.markdown("""
         border: none !important;
     }
 
-    /* Текст кнопки "Загрузить" */
     div[data-testid="stFileUploader"] button::after {
         content: "📥 Загрузить фото";
         font-size: 16px !important;
-        color: #F5E6D3 !important; /* Кофейный текст на синей кнопке */
+        color: #F5E6D3 !important; 
         font-weight: bold !important;
     }
 
-    /* Текст кнопки при загрузке файлов */
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
     div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
         content: "❌ Отменить всё" !important;
         color: #FF6B6B !important;
     }
 
-    /* Названия загруженных файлов и их размер */
     div[data-testid="stFileUploaderFileName"], 
     div[data-testid="stFileUploaderFileData"] {
         color: #1A3A5F !important;
     }
 
-    /* Кнопка "Создать PDF" */
+    /* КНОПКА "СОЗДАТЬ PDF" — ТЕКСТ БЕЛЫЙ */
     .stButton>button {
         background-color: #1A3A5F !important;
-        color: #F5E6D3 !important;
+        color: #FFFFFF !important; /* Сделано белым */
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
         height: 3.5em !important;
         font-weight: bold !important;
         margin-top: 15px !important;
-        transition: 0.3s;
     }
 
-    .stButton>button:hover {
-        background-color: #12263F !important;
-        box-shadow: 0 4px 10px rgba(26, 58, 95, 0.3) !important;
-    }
-
-    /* Кнопка "Скачать PDF" */
+    /* КНОПКА "СКАЧАТЬ PDF" — ТЕКСТ БЕЛЫЙ */
     .stDownloadButton>button {
         background-color: #2E5A88 !important;
-        color: #F5E6D3 !important;
+        color: #FFFFFF !important; /* Сделано белым */
         border-radius: 12px !important;
         width: 100% !important;
         height: 3.5em !important;
@@ -111,12 +99,10 @@ st.markdown("""
         margin-top: 15px !important;
     }
 
-    /* Горизонтальная линия */
     hr {
         border-top: 1px solid #1A3A5F !important;
     }
 
-    /* Компактность страницы */
     .block-container {
         padding-top: 2rem !important;
     }
@@ -127,7 +113,6 @@ st.markdown("""
 st.markdown('<div class="glass-container">', unsafe_allow_html=True)
 st.markdown('<p class="main-title">Foto to PDF von Finevych A.</p>', unsafe_allow_html=True)
 
-# ЗАГРУЗКА
 uploaded_files = st.file_uploader(
     "upload", 
     type=["jpg", "jpeg", "png"],
@@ -135,7 +120,6 @@ uploaded_files = st.file_uploader(
     label_visibility="collapsed"
 )
 
-# КНОПКА КОНВЕРТАЦИИ
 convert_clicked = st.button("🚀 Создать PDF", disabled=not uploaded_files)
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -158,7 +142,6 @@ if uploaded_files:
         
         st.success("PDF успешно создан!")
         
-        # СКАЧИВАНИЕ
         st.download_button(
             label="📥 СКАЧАТЬ ВАШ PDF",
             data=pdf_bytes,
@@ -166,7 +149,6 @@ if uploaded_files:
             mime="application/pdf"
         )
         
-        # ПРЕДПРОСМОТР PDF
         b64 = base64.b64encode(pdf_bytes).decode()
         pdf_display = f'''
             <iframe src="data:application/pdf;base64,{b64}" 
@@ -175,7 +157,6 @@ if uploaded_files:
             </iframe>'''
         st.markdown(pdf_display, unsafe_allow_html=True)
 
-    # ПРЕДПРОСМОТР ФОТО (внизу)
     st.markdown("---")
     st.write("🖼 Исходные изображения:")
     cols = st.columns(4)
