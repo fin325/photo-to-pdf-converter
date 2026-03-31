@@ -71,7 +71,7 @@ st.markdown("""
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
     div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
         content: "❌ Отменить всё" !important;
-        color: #FF6B6B !important;
+        color: #800000 !important; /* Текст "Отменить все" тоже сделаем бордовым */
     }
 
     /* ЦВЕТ ИМЕН ФАЙЛОВ И КРЕСТИКОВ УДАЛЕНИЯ */
@@ -80,9 +80,9 @@ st.markdown("""
         color: #1A3A5F !important;
     }
 
-    /* Делаем иконку крестика (удаления) КРАСНОЙ */
+    /* Делаем иконку крестика (удаления) БОРДОВОЙ */
     div[data-testid="stFileUploader"] svg {
-        fill: #FF6B6B !important; /* ИЗМЕНЕНО: синий заменен на красный */
+        fill: #800000 !important; /* ИЗМЕНЕНО: на темно-красный / бордовый */
     }
 
     /* КНОПКА "СОЗДАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
