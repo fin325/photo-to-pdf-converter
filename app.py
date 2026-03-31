@@ -3,108 +3,108 @@ from PIL import Image
 import io
 import base64
 
+# Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# ОБНОВЛЕННЫЙ СТИЛЬ (Более мощные селекторы)
+# УЛУЧШЕННЫЙ CSS
 st.markdown("""
     <style>
-    /* Фон и общие настройки */
+    /* 1. Общий фон приложения */
     .stApp {
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background: linear-gradient(135deg, #102a43 0%, #243b55 100%) !important;
     }
 
-    /* Заголовок */
-    .main-title {
-        font-size: 32px;
-        font-weight: 800;
-        text-align: center;
-        color: white;
-        margin-bottom: 20px;
-    }
-
-    /* МАТОВАЯ ПАНЕЛЬ */
+    /* 2. Матовая панель (теперь заголовок ВНУТРИ неё) */
     .glass-container {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.07);
         backdrop-filter: blur(15px);
         border-radius: 20px;
         padding: 25px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        margin-top: 20px;
     }
 
-    /* РАБОТА С КНОПКОЙ ЗАГРУЗКИ (BROWSE FILES) */
-    /* 1. Делаем всю зону загрузки матовой */
+    /* 3. Текст заголовка */
+    .main-title {
+        font-size: 26px;
+        font-weight: 800;
+        text-align: center;
+        color: #ffffff !important;
+        margin-bottom: 20px;
+    }
+
+    /* 4. Настройка загрузчика (делаем его прозрачным) */
     div[data-testid="stFileUploader"] {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border: 2px dashed rgba(255, 255, 255, 0.2) !important;
+        background-color: transparent !important;
+        border: 1px dashed rgba(255, 255, 255, 0.3) !important;
         border-radius: 15px !important;
-        padding: 10px !important;
+    }
+    
+    /* Делаем фон внутри загрузчика тоже прозрачным */
+    div[data-testid="stFileUploader"] section {
+        background-color: transparent !important;
+        color: white !important;
     }
 
-    /* 2. Прячем стандартный текст внутри кнопки */
+    /* 5. Кнопка "Загрузить фото" - делаем текст ЯРКИМ */
+    div[data-testid="stFileUploader"] button {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        color: white !important;
+    }
+    
+    /* Хак для замены текста на белый */
     div[data-testid="stFileUploader"] button div[data-testid="stMarkdownContainer"] p {
         display: none !important;
     }
-
-    /* 3. Вставляем свой текст "Загрузить файлы" */
     div[data-testid="stFileUploader"] button::after {
         content: "📥 Загрузить фото";
-        color: white !important;
+        color: #FFFFFF !important; /* Чисто белый цвет */
         font-weight: bold;
+        font-size: 16px;
     }
 
-    /* 4. Стили самой кнопки внутри загрузчика */
-    div[data-testid="stFileUploader"] button {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 10px !important;
-        width: 100% !important;
-    }
-
-    /* КНОПКА КОНВЕРТАЦИИ */
+    /* 6. Кнопка Создать PDF */
     .stButton>button {
-        background: rgba(74, 144, 226, 0.4) !important;
+        background: #4A90E2 !important;
         color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-radius: 12px;
-        height: 3.8em;
+        border: none;
+        width: 100%;
+        height: 3.5em;
         font-weight: bold;
-        transition: 0.3s;
-    }
-    
-    .stButton>button:hover {
-        background: rgba(74, 144, 226, 0.6) !important;
-        box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
     }
 
-    /* Тексты */
-    p, span, label {
-        color: #f0f0f0 !important;
+    /* Убираем лишние отступы у Streamlit */
+    .block-container {
+        padding-top: 2rem !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Заголовок
+# Отрисовка всего интерфейса ВНУТРИ одной панели
+st.markdown('<div class="glass-container">', unsafe_allow_html=True)
+
+# Заголовок теперь внутри стекла
 st.markdown('<p class="main-title">Foto to PDF von Finevych A.</p>', unsafe_allow_html=True)
 
-# Контейнер
-st.markdown('<div class="glass-container">', unsafe_allow_html=True)
-col1, col2 = st.columns([1.5, 1])
+# Используем колонки, но на мобильных они встанут красиво друг под другом
+uploaded_files = st.file_uploader(
+    "Загрузить файл", 
+    type=["jpg", "jpeg", "png"],
+    accept_multiple_files=True,
+    label_visibility="collapsed"
+)
 
-with col1:
-    uploaded_files = st.file_uploader(
-        "Загрузить файл", 
-        type=["jpg", "jpeg", "png"],
-        accept_multiple_files=True,
-        label_visibility="collapsed"
-    )
+st.write("") # Отступ
 
-with col2:
-    st.write("###") # Выравнивание
-    convert_clicked = st.button("🚀 Создать PDF", disabled=not uploaded_files)
+convert_clicked = st.button("🚀 Создать PDF", disabled=not uploaded_files)
+
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Логика (кратко)
+# ЛОГИКА
 if uploaded_files:
     images = [Image.open(f).convert("RGB") for f in uploaded_files]
     
@@ -113,14 +113,21 @@ if uploaded_files:
         images[0].save(pdf_buffer, format="PDF", save_all=True, append_images=images[1:])
         pdf_bytes = pdf_buffer.getvalue()
         
-        st.success("Готово!")
-        st.download_button("📥 СКАЧАТЬ PDF", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
+        st.success("Готово! Ваш файл собран.")
+        st.download_button(
+            label="📥 СКАЧАТЬ PDF",
+            data=pdf_bytes,
+            file_name="Finevych_PDF.pdf",
+            mime="application/pdf"
+        )
         
+        # Предпросмотр (с матовым эффектом)
         b64 = base64.b64encode(pdf_bytes).decode()
-        pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="500" style="border-radius:15px; margin-top:15px;"></iframe>'
+        pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="500" style="border-radius:15px; border: 1px solid rgba(255,255,255,0.2); margin-top:20px;"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
 
-    # Галерея
-    cols = st.columns(4)
+    # Миниатюры загруженных фото
+    st.write(f"🖼 Выбрано фото: {len(images)}")
+    cols = st.columns(3)
     for i, img in enumerate(images):
-        cols[i % 4].image(img, use_container_width=True)
+        cols[i % 3].image(img, use_container_width=True)
