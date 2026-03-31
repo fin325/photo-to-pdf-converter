@@ -6,7 +6,7 @@ import base64
 # 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# 2. ФИНАЛЬНЫЙ CSS (Компактный размер + белые МБ)
+# 2. ФИНАЛЬНЫЙ CSS (Сверхточный выбор для белых МБ)
 st.markdown("""
     <style>
     /* Фон приложения */
@@ -24,12 +24,12 @@ st.markdown("""
         text-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
-    /* ЗОНА ЗАГРУЗКИ (Возвращаем маленький размер) */
+    /* ЗОНА ЗАГРУЗКИ (Компактная) */
     div[data-testid="stFileUploader"] {
         background-color: rgba(255, 255, 255, 0.03) !important;
         border: 1px dashed rgba(255, 255, 255, 0.3) !important;
         border-radius: 12px !important;
-        padding: 5px !important; /* Минимальный отступ для компактности */
+        padding: 5px !important;
     }
 
     /* ПЕРЕВОД ТЕКСТА "Drag and drop" */
@@ -53,14 +53,14 @@ st.markdown("""
         display: block;
     }
 
-    /* КНОПКА ЗАГРУЗКИ (Маленькая) */
+    /* КНОПКА ВЫБОРА */
     div[data-testid="stFileUploader"] button {
         background-color: rgba(255, 255, 255, 0.1) !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         color: transparent !important;
         font-size: 0 !important;
         border-radius: 8px !important;
-        height: 2.8em !important; /* Уменьшенная высота */
+        height: 2.8em !important;
         margin: 5px auto !important;
     }
 
@@ -72,19 +72,27 @@ st.markdown("""
         visibility: visible !important;
     }
 
-    /* ИМЕНА ФАЙЛОВ И РАЗМЕР (МБ) - Делаем белыми */
-    div[data-testid="stFileUploaderFileName"], 
-    div[data-testid="stFileUploaderFileData"] {
-        color: #ffffff !important;
+    /* --- ИСПРАВЛЕНИЕ ЦВЕТА МБ И ИМЕН ФАЙЛОВ --- */
+    /* Имя файла */
+    div[data-testid="stFileUploaderFileName"] {
+        color: #FFFFFF !important;
+    }
+    
+    /* Размер файла (МБ) - используем максимально широкий захват */
+    div[data-testid="stFileUploaderFileData"], 
+    div[data-testid="stFileUploaderFileData"] > div, 
+    div[data-testid="stFileUploaderFileData"] > span,
+    .st-emotion-cache-1erivf3 { 
+        color: #FFFFFF !important;
         opacity: 1 !important;
     }
 
-    /* КРЕСТИКИ удаления */
+    /* Крестики удаления */
     div[data-testid="stFileUploader"] svg {
         fill: white !important;
     }
 
-    /* ГЛАВНАЯ КНОПКА "СОЗДАТЬ PDF" */
+    /* ГЛАВНАЯ КНОПКА */
     .stButton>button {
         background: #3b82f6 !important;
         color: white !important;
@@ -96,15 +104,14 @@ st.markdown("""
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3) !important;
     }
 
-    /* Тексты подсказок */
+    /* Общие тексты */
     .stMarkdown, p, span, label {
         color: #cbd5e1 !important;
     }
 
-    /* Уменьшаем общие отступы страницы */
     .block-container {
         padding-top: 1.5rem !important;
-        max-width: 500px !important; /* Делаем контент чуть уже для мобильных */
+        max-width: 500px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -126,7 +133,7 @@ if uploaded_files:
     images = [Image.open(f).convert("RGB") for f in uploaded_files]
     
     if convert_clicked:
-        with st.spinner('Сборка PDF...'):
+        with st.spinner('Сборка...'):
             pdf_buffer = io.BytesIO()
             images[0].save(pdf_buffer, format="PDF", save_all=True, append_images=images[1:])
             pdf_bytes = pdf_buffer.getvalue()
@@ -138,7 +145,6 @@ if uploaded_files:
         pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="450" style="border-radius:12px; border: none; background:white; margin-top:10px;"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
 
-    # Предпросмотр миниатюр
     st.markdown("---")
     cols = st.columns(4)
     for i, img in enumerate(images):
