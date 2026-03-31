@@ -62,7 +62,7 @@ st.markdown("""
     }
 
     div[data-testid="stFileUploader"] button::after {
-        content: "📥 Выбрать фото";
+        content: "📥";
         font-size: 16px !important;
         color: #F5E6D3 !important; 
         font-weight: bold !important;
