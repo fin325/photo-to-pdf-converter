@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Tools</title>
+    <title>Foto to PDF | Finevych A.</title>
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -18,82 +18,103 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: #0f172a; /* Темный запасной фон */
+            overflow: hidden;
         }
 
-        /* фон с размытием */
-        body::before {
-            content: "";
-            position: absolute;
+        /* Фоновое изображение с мягким размытием */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-
-            background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085") center/cover no-repeat;
-
-            filter: blur(25px);
+            background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80") center/cover no-repeat;
+            filter: blur(15px) brightness(0.6);
             z-index: -1;
+            transform: scale(1.1); /* Убирает белые края при размытии */
         }
 
         .card {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-
-            padding: 50px 40px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
             width: 90%;
-            max-width: 400px;
-
+            max-width: 420px;
             text-align: center;
             color: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            animation: fadeIn 0.8s ease-out;
+        }
 
-            box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.2);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
         }
 
         p {
-            opacity: 0.8;
-            margin-bottom: 30px;
+            font-size: 16px;
+            opacity: 0.7;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .btn-link {
+            text-decoration: none;
         }
 
         .btn {
             width: 100%;
-            padding: 15px;
-            border-radius: 14px;
+            padding: 16px;
+            border-radius: 16px;
             border: none;
             cursor: pointer;
-
-            background: rgba(255,255,255,0.15);
+            background: #4A90E2; /* Синий цвет как в Streamlit для единства стиля */
             color: white;
             font-size: 18px;
-
-            backdrop-filter: blur(10px);
-
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px) scale(1.03);
+            background: #357ABD;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(74, 144, 226, 0.4);
         }
 
         .btn:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
-        /* адаптация под iPhone */
+        .footer-text {
+            margin-top: 25px;
+            font-size: 12px;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Адаптация для мобильных */
         @media (max-width: 480px) {
             .card {
                 padding: 30px 20px;
             }
-
             h1 {
                 font-size: 22px;
             }
@@ -102,13 +123,19 @@
 </head>
 <body>
 
-<div class="card">
-    <h1>📄 PDF Converter</h1>
-    <p>Быстро конвертируй изображения в PDF</p>
+<div class="background"></div>
 
-    <a href="https://your-app.streamlit.app" target="_blank">
-        <button class="btn">🚀 Открыть</button>
+<div class="card">
+    <h1>📄 Foto to PDF<br>von Finevych A.</h1>
+    <p>Профессиональный инструмент для быстрой конвертации ваших фото в PDF документы</p>
+
+    <a href="https://your-app.streamlit.app" class="btn-link" target="_blank">
+        <button class="btn">
+            <span>🚀 Начать работу</span>
+        </button>
     </a>
+
+    <div class="footer-text">Secure & Fast Converter</div>
 </div>
 
 </body>
