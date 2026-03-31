@@ -48,13 +48,14 @@ st.markdown("""
 
     div[data-testid="stFileUploader"] section::after {
         content: "Лимит 200МБ • JPG, PNG";
-        color: rgba(255, 255, 255, 0.6) !important;
+        color: rgba(155, 125, 125, 0.6) !important;
         font-size: 11px;
         display: block;
     }
 
     /* КНОПКА ВЫБОРА */
     div[data-testid="stFileUploader"] button {
+        content: "📥 Выбрать фото";
         background-color: rgba(255, 255, 255, 0.1) !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         color: transparent !important;
@@ -65,9 +66,9 @@ st.markdown("""
     }
 
     div[data-testid="stFileUploader"] button::after {
-        content: "📥 Выбрать фото";
-        font-size: 14px !important;
-        color: #FFFFFF !important;
+        content: "📥 Отменить";
+        font-size: 25px !important;
+        color: blau !important;
         font-weight: bold !important;
         visibility: visible !important;
     }
@@ -81,7 +82,7 @@ st.markdown("""
     /* Принудительно делаем белыми МБ и любые данные о файле */
     div[data-testid="stFileUploaderFileData"], 
     div[data-testid="stFileUploaderFileData"] * { 
-        color: #FFFFFF !important;
+        color: white !important;
         opacity: 1 !important;
     }
 
@@ -115,7 +116,7 @@ st.markdown("""
 
     .block-container {
         padding-top: 1.5rem !important;
-        max-width: 500px !important;
+        max-width: 200px !important;
     }
     </style>
     """, unsafe_allow_html=True)
