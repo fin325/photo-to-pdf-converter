@@ -80,9 +80,9 @@ st.markdown("""
         color: #1A3A5F !important;
     }
 
-    /* Делаем иконку крестика (удаления) темно-синей */
+    /* Делаем иконку крестика (удаления) КРАСНОЙ */
     div[data-testid="stFileUploader"] svg {
-        fill: #1A3A5F !important;
+        fill: #FF6B6B !important; /* ИЗМЕНЕНО: синий заменен на красный */
     }
 
     /* КНОПКА "СОЗДАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
