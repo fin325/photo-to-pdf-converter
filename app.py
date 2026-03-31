@@ -76,10 +76,12 @@ st.markdown("""
         color: #1A3A5F !important;
     }
 
-    /* КНОПКА "СОЗДАТЬ PDF" — ТЕКСТ БЕЛЫЙ */
+    /* КНОПКА "СОЗДАТЬ PDF" — ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ */
+    .stButton>button p, .stButton>button div, .stButton>button {
+        color: #FFFFFF !important;
+    }
     .stButton>button {
         background-color: #1A3A5F !important;
-        color: #FFFFFF !important; /* Сделано белым */
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
@@ -88,10 +90,12 @@ st.markdown("""
         margin-top: 15px !important;
     }
 
-    /* КНОПКА "СКАЧАТЬ PDF" — ТЕКСТ БЕЛЫЙ */
+    /* КНОПКА "СКАЧАТЬ PDF" — ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ */
+    .stDownloadButton>button p, .stDownloadButton>button div, .stDownloadButton>button {
+        color: #FFFFFF !important;
+    }
     .stDownloadButton>button {
         background-color: #2E5A88 !important;
-        color: #FFFFFF !important; /* Сделано белым */
         border-radius: 12px !important;
         width: 100% !important;
         height: 3.5em !important;
