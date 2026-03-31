@@ -43,36 +43,42 @@ st.markdown("""
         display: none !important;
     }
 
-    /* 1. БАЗОВОЕ СОСТОЯНИЕ (Когда файлов НЕТ) */
-div[data-testid="stFileUploader"] button {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: transparent !important;
-    font-size: 0 !important;
-    height: 3.5em !important;
-    width: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
+        /* 1. БАЗОВОЕ СОСТОЯНИЕ (Кнопка пустая) */
+    div[data-testid="stFileUploader"] button {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        height: 3.5em !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        position: relative !important;
+    }
 
-/* Текст по умолчанию */
-div[data-testid="stFileUploader"] button::after {
-    content: "📥 Загрузить фото"; /* Текст для пустой кнопки */
-    font-size: 16px !important;
-    color: #FFFFFF !important;
-    font-weight: bold !important;
-}
+    /* Текст "Загрузить фото" появляется ТОЛЬКО когда файлов еще нет */
+    div[data-testid="stFileUploader"] button::after {
+        content: "📥 Загрузить фото";
+        font-size: 16px !important;
+        color: #FFFFFF !important;
+        font-weight: bold !important;
+        position: absolute !important;
+    }
 
-/* 2. СОСТОЯНИЕ С ФАЙЛОМ (Когда файл ЗАГРУЖЕН) */
-/* Мы ищем кнопку, которая идет ПОСЛЕ контейнера с загруженными файлами */
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
-div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
-    content: "❌ Отменить всё" !important; /* Текст меняется на этот */
-    color: #FF4B4B !important; /* Можно сделать текст красноватым для акцента */
-}
+    /* 2. СОСТОЯНИЕ, КОГДА ФАЙЛЫ ЗАГРУЖЕНЫ */
+    /* Если внутри есть контейнер с файлом, мы меняем текст кнопки на "Отменить" */
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
+    div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
+        content: "❌ Отменить всё" !important;
+        color: #FF4B4B !important; /* Делаем текст красным для ясности */
+    }
 
-
+    /* Убираем дублирование текста над списком файлов */
+    div[data-testid="stFileUploader"] section {
+        overflow: hidden !important;
+    }
+    
     /* Кнопка "Создать PDF" */
     .stButton>button {
         background: #4A90E2 !important;
