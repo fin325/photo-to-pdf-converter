@@ -3,10 +3,10 @@ from PIL import Image
 import io
 import base64
 
-# Настройка страницы
+# 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# Кастомные стили для красоты
+# 2. Кастомные стили для красоты (в стиле твоего HTML)
 st.markdown("""
     <style>
     .main-title {
@@ -14,41 +14,54 @@ st.markdown("""
         font-weight: bold;
         text-align: center;
         color: #4A90E2;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
+    }
+    .author-line {
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.7;
+        margin-bottom: 25px;
     }
     .stButton>button {
         width: 100%;
-        border-radius: 10px;
-        height: 3em;
+        border-radius: 12px;
+        height: 3.5em;
         background-color: #4A90E2;
         color: white;
+        font-weight: bold;
+        border: none;
     }
     .stDownloadButton>button {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 12px;
         background-color: #28a745;
         color: white;
+        font-weight: bold;
+    }
+    /* Стиль для области загрузки */
+    .stFileUploader {
+        padding-top: 0px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 1. Заголовок в одну строку
+# Заголовок в одну строку
 st.markdown('<p class="main-title">Foto to PDF von Finevych A.</p>', unsafe_allow_html=True)
 
-# 2. Блок управления (Кнопки в ряд)
+# 3. Блок управления (Кнопки в ряд сразу под заголовком)
 col1, col2 = st.columns(2)
 
 with col1:
-    # Кнопка загрузки (стилизованная под "Browse")
+    # Загрузчик файлов (скрываем стандартный текст для компактности)
     uploaded_files = st.file_uploader(
-        "Шаг 1: Выберите фото",
+        "Выбрать фото",
         type=["jpg", "jpeg", "png"],
         accept_multiple_files=True,
-        label_visibility="collapsed" # Скрываем текст, чтобы было чище
+        label_visibility="collapsed"
     )
-    st.caption("👈 Нажмите, чтобы выбрать фото")
+    st.caption("⬅️ 1. Выберите изображения")
 
-# Логика обработки
+# Подготовка данных
 images = []
 pdf_bytes = None
 
@@ -58,8 +71,9 @@ if uploaded_files:
         images.append(img)
 
 with col2:
-    # Кнопка конвертации (активна только если файлы загружены)
+    # Кнопка конвертации
     convert_clicked = st.button("🚀 Конвертировать", disabled=not uploaded_files)
+    st.caption("2. Создайте PDF ➡️")
     
     if convert_clicked and images:
         pdf_buffer = io.BytesIO()
@@ -72,30 +86,30 @@ with col2:
         pdf_bytes = pdf_buffer.getvalue()
         st.success("Готово!")
 
----
+# Разделитель
+st.markdown("---")
 
-# 3. Секция предпросмотра и скачивания
+# 4. Секция предпросмотра и скачивания
 if uploaded_files:
-    st.subheader("🖼 Предпросмотр и загрузка")
-    
-    # Если PDF уже создан, показываем кнопку скачивания во всю ширину
+    # Если PDF готов, показываем кнопку скачивания
     if pdf_bytes:
         st.download_button(
-            label="📥 СКАЧАТЬ ВАШ PDF",
+            label="📥 СКАЧАТЬ ГОТОВЫЙ PDF",
             data=pdf_bytes,
             file_name="converted_finevych.pdf",
             mime="application/pdf"
         )
 
     # Список загруженных картинок в виде сетки
-    cols = st.columns(4)
+    st.write(f"Загружено файлов: {len(uploaded_files)}")
+    grid_cols = st.columns(4)
     for idx, img in enumerate(images):
-        with cols[idx % 4]:
+        with grid_cols[idx % 4]:
             st.image(img, use_container_width=True)
 
-    # Предпросмотр PDF (если готов)
+    # Предпросмотр PDF (в самом низу)
     if pdf_bytes:
-        st.markdown("### 📄 Просмотр готового файла:")
+        st.markdown("### 📄 Просмотр:")
         b64 = base64.b64encode(pdf_bytes).decode()
         pdf_display = f'''
             <iframe 
@@ -107,4 +121,4 @@ if uploaded_files:
         '''
         st.markdown(pdf_display, unsafe_allow_html=True)
 else:
-    st.info("👋 Пожалуйста, загрузите хотя бы одно изображение, чтобы начать.")
+    st.info("👋 Пожалуйста, выберите фото для начала работы.")
