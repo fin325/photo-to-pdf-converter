@@ -45,6 +45,7 @@ st.markdown("""
 
     /* КНОПКА ЗАГРУЗКИ (Чистый текст) */
     div[data-testid="stFileUploader"] button {
+        content: "📥 Загрузить фото";
         background-color: rgba(255, 255, 255, 0.1) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         color: transparent !important;
@@ -57,7 +58,7 @@ st.markdown("""
     }
 
     div[data-testid="stFileUploader"] button::after {
-        content: "📥 Загрузить фото";
+        content: "📥 Отменить";
         font-size: 16px !important;
         color: #FFFFFF !important;
         font-weight: bold !important;
