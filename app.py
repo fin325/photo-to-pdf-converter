@@ -9,7 +9,6 @@ st.title("📄 Foto → PDF Converter")
 
 # 🔼 ЗАГРУЗКА СРАЗУ ВВЕРХУ
 uploaded_files = st.file_uploader(
-    content: "Фото";
     "Загрузите изображения",
     type=["jpg", "jpeg", "png"],
     accept_multiple_files=True
