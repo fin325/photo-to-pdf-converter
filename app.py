@@ -71,21 +71,30 @@ st.markdown("""
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
     div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
         content: "❌ Отменить всё" !important;
-        color: #800000 !important; /* Текст "Отменить все" тоже сделаем бордовым */
+        color: #800000 !important;
     }
 
-    /* ЦВЕТ ИМЕН ФАЙЛОВ И КРЕСТИКОВ УДАЛЕНИЯ */
+    /* ЦВЕТ ИМЕН ФАЙЛОВ */
     div[data-testid="stFileUploaderFileName"], 
     div[data-testid="stFileUploaderFileData"] {
         color: #1A3A5F !important;
     }
 
-    /* Делаем иконку крестика (удаления) БОРДОВОЙ */
+    /* УВЕЛИЧЕННЫЙ БОРДОВЫЙ КРЕСТИК */
     div[data-testid="stFileUploader"] svg {
-        fill: #800000 !important; /* ИЗМЕНЕНО: на темно-красный / бордовый */
+        fill: #800000 !important;
+        transform: scale(1.5) !important; /* Увеличили в 1.5 раза */
+        margin-right: 10px !important;    /* Добавили отступ от края */
+        transition: transform 0.2s ease;
     }
 
-    /* КНОПКА "СОЗДАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
+    /* Эффект при наведении на крестик */
+    div[data-testid="stFileUploader"] svg:hover {
+        transform: scale(1.8) !important; /* Еще чуть больше при наведении */
+        cursor: pointer;
+    }
+
+    /* КНОПКА "СОЗДАТЬ PDF" */
     .stButton>button p, .stButton>button div, .stButton>button {
         color: #F5E6D3 !important; 
         font-family: 'Montserrat', sans-serif !important;
@@ -100,7 +109,7 @@ st.markdown("""
         margin-top: 15px !important;
     }
 
-    /* КНОПКА "СКАЧАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
+    /* КНОПКА "СКАЧАТЬ PDF" */
     .stDownloadButton>button p, .stDownloadButton>button div, .stDownloadButton>button {
         color: #F5E6D3 !important; 
         font-family: 'Montserrat', sans-serif !important;
