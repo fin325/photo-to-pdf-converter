@@ -75,34 +75,30 @@ def set_glassmorphism_style(image_path):
             box-shadow: 0 12px 30px rgba(37, 99, 235, 0.55) !important;
         }}
 
-        /* Кнопка конвертации */
+        /* Тёмно-синяя кнопка конвертации (простой стиль как в начале) */
         .stButton > button {{
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 700;
-            padding: 18px 50px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.45);
-            width: 100%;
-            height: 62px;
+            background-color: #1e3a8a !important;
+            color: white !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+            padding: 12px 40px !important;
+            border-radius: 10px !important;
+            border: none !important;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4) !important;
+            transition: all 0.3s ease !important;
+            width: 100% !important;
         }}
 
         .stButton > button:hover {{
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.6);
-        }}
-
-        .stImage img {{
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            background-color: #172554 !important;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.5) !important;
+            transform: translateY(-2px);
         }}
         </style>
         """
         st.markdown(glass_css, unsafe_allow_html=True)
     except FileNotFoundError:
         st.error(f"❌ Файл фона не найден: {image_path}")
-        st.info("Убедись, что файл лежит по пути: img/7c66a165-7bda-4830-843d-bf2839d5eb1e.jpeg")
 
 # ======================= ЗАПУСК СТИЛЯ =======================
 set_glassmorphism_style("img/7c66a165-7bda-4830-843d-bf2839d5eb1e.jpeg")
@@ -136,6 +132,7 @@ if uploaded_files:
         with cols[idx % num_cols]:
             st.image(img, use_column_width=True)
 
+    # Кнопка конвертации (поднята выше)
     if st.button("🚀 Конвертировать в PDF"):
         with st.spinner("Создаём PDF..."):
             pdf_buffer = io.BytesIO()
@@ -149,7 +146,8 @@ if uploaded_files:
 
         st.success("🎉 PDF успешно создан!")
 
-        col1, col2 = st.columns(2)
+        # Панель с кнопками (скачивание + просмотр) — поднята выше
+        col1, col2 = st.columns([1, 2])
         with col1:
             st.download_button(
                 label="📥 Скачать PDF",
@@ -159,11 +157,12 @@ if uploaded_files:
                 use_container_width=True
             )
 
+        # Просмотр PDF сразу под кнопками
         b64 = base64.b64encode(pdf_bytes).decode()
         st.markdown("### 📄 Просмотр PDF:")
         st.markdown(f'''
             <iframe src="data:application/pdf;base64,{b64}" 
-                    width="100%" height="780" 
+                    width="100%" height="750" 
                     style="border: none; border-radius: 12px;">
             </iframe>
         ''', unsafe_allow_html=True)
