@@ -3,111 +3,80 @@ from PIL import Image
 import io
 import base64
 
-# ======================= ТВОЙ КРАСИВЫЙ HTML + CSS =======================
-html_header = """
+# ======================= СТИЛИ =======================
+st.markdown("""
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
     .stApp {
-        background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
-    }
-
-    /* Фон из твоей картинки */
-    .stApp::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: url("img/7c66a165-7bda-4830-843d-bf2839d5eb1e.jpeg") center/cover no-repeat;
-        filter: blur(25px);
-        z-index: -1;
-        opacity: 0.85;
+        background-image: url("img/7c66a165-7bda-4830-843d-bf2839d5eb1e.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
     }
 
     .main .block-container {
-        background: rgba(255, 255, 255, 0.09) !important;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 24px;
-        border: 1px solid rgba(255,255,255,0.25);
-        box-shadow: 0 10px 50px rgba(0,0,0,0.4);
-        padding: 50px 40px;
-        max-width: 700px;
-        margin: 40px auto;
-        color: white;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        max-width: 800px;
+        margin: 30px auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
 
-    h1 {
-        font-size: 2.8rem;
-        margin-bottom: 10px;
+    /* Заголовок - белый матовый с тенью */
+    .title {
         text-align: center;
+        font-size: 3.2rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        margin-bottom: 8px;
     }
 
     .subtitle {
-        font-size: 1.35rem;
-        opacity: 0.85;
         text-align: center;
+        font-size: 1.45rem;
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         margin-bottom: 35px;
     }
 
-    /* Красивая кнопка загрузки */
-    .stFileUploader > section {
-        background: rgba(255,255,255,0.12) !important;
-        border: 2px dashed rgba(255,255,255,0.5) !important;
-        border-radius: 18px;
-        padding: 40px 20px;
-    }
-
-    .stFileUploader label {
-        background: rgba(255,255,255,0.2) !important;
-        color: white !important;
-        padding: 16px 40px !important;
+    /* Кнопка "Конвертировать в PDF" - белая матовая */
+    .stButton > button {
+        background: rgba(255, 255, 255, 0.85) !important;
+        color: #1e3a8a !important;
+        font-size: 1.25rem !important;
+        font-weight: 600 !important;
+        padding: 14px 32px !important;
         border-radius: 14px !important;
-        font-size: 1.2rem !important;
-        font-weight: 600;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+        border: none !important;
         transition: all 0.3s ease;
     }
 
-    .stFileUploader label:hover {
-        background: rgba(255,255,255,0.35) !important;
-        transform: translateY(-3px);
-    }
-
-    /* Тёмно-синяя кнопка конвертации */
-    .stButton > button {
-        background-color: #1e3a8a !important;
-        color: white !important;
-        font-size: 1.25rem !important;
-        font-weight: 600 !important;
-        padding: 16px !important;
-        border-radius: 14px !important;
-        width: 100% !important;
-        margin-top: 20px;
-    }
-
     .stButton > button:hover {
-        background-color: #172554 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Улучшение зоны загрузки */
+    .stFileUploader > section {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 2px dashed rgba(255, 255, 255, 0.6) !important;
+        border-radius: 16px;
+        padding: 30px;
     }
 </style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <h1>📄 Foto to PDF</h1>
-    <p class="subtitle">von Finevych A.</p>
-</div>
-"""
+""", unsafe_allow_html=True)
 
 # ======================= ПРИЛОЖЕНИЕ =======================
 st.set_page_config(page_title="Foto to PDF", page_icon="📄", layout="centered")
 
-# Вставляем твой красивый HTML + CSS
-st.markdown(html_header, unsafe_allow_html=True)
+st.markdown('<h1 class="title">Foto to PDF</h1>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle">von Finevych A.</p>', unsafe_allow_html=True)
 
-# ======================= ЛОГИКА =======================
+# Загрузка файлов
 uploaded_files = st.file_uploader(
     "Загрузите изображения (JPG, JPEG, PNG)",
     type=["jpg", "jpeg", "png"],
@@ -115,8 +84,9 @@ uploaded_files = st.file_uploader(
     label_visibility="visible"
 )
 
+# ======================= ЛОГИКА =======================
 if uploaded_files:
-    st.success(f"✅ Загружено изображений: **{len(uploaded_files)}**")
+    st.success(f"✅ Загружено: **{len(uploaded_files)}** изображений")
 
     images = []
     cols = st.columns(min(5, len(uploaded_files)))
@@ -127,8 +97,9 @@ if uploaded_files:
         with cols[idx % len(cols)]:
             st.image(img, use_column_width=True)
 
+    # Кнопка "Конвертировать в PDF" рядом с зоной загрузки
     if st.button("🚀 Конвертировать в PDF"):
-        with st.spinner("Создаём PDF файл..."):
+        with st.spinner("Создаём PDF..."):
             pdf_buffer = io.BytesIO()
             images[0].save(
                 pdf_buffer,
@@ -154,7 +125,7 @@ if uploaded_files:
         st.markdown("### 📄 Просмотр PDF:")
         st.markdown(f'''
             <iframe src="data:application/pdf;base64,{b64}" 
-                    width="100%" height="780px" 
-                    style="border: none; border-radius: 16px; background: white;">
+                    width="100%" height="750" 
+                    style="border: none; border-radius: 12px; background:white;">
             </iframe>
         ''', unsafe_allow_html=True)
