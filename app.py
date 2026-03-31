@@ -9,12 +9,16 @@ st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered"
 # 2. Блок стилей
 st.markdown("""
     <style>
-    /* Основной фон приложения (светло-кофейный) */
+    /* Подключаем красивый шрифт */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap');
+
+    /* Основной фон приложения */
     .stApp {
         background-color: #F5E6D3 !important;
+        font-family: 'Montserrat', sans-serif;
     }
 
-    /* Контейнер для интерфейса */
+    /* Контейнер */
     .glass-container {
         background-color: #F5E6D3 !important;
         border: none !important;
@@ -23,9 +27,10 @@ st.markdown("""
         text-align: center;
     }
 
-    /* Все заголовки и тексты (темно-синий) */
+    /* Все тексты (темно-синий) */
     h1, h2, h3, p, span, label, .main-title {
         color: #1A3A5F !important;
+        font-family: 'Montserrat', sans-serif;
     }
 
     .main-title {
@@ -48,8 +53,6 @@ st.markdown("""
     /* КНОПКА ВНУТРИ ЗАГРУЗЧИКА */
     div[data-testid="stFileUploader"] button {
         background-color: #1A3A5F !important;
-        color: transparent !important;
-        font-size: 0 !important;
         height: 3.5em !important;
         width: 100% !important;
         display: flex !important;
@@ -62,45 +65,44 @@ st.markdown("""
         content: "📥 Загрузить фото";
         font-size: 16px !important;
         color: #F5E6D3 !important; 
-        font-weight: bold !important;
+        font-weight: 600 !important;
+        font-family: 'Montserrat', sans-serif;
     }
 
-    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
-    div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
-        content: "❌ Отменить всё" !important;
-        color: #FF6B6B !important;
-    }
-
-    div[data-testid="stFileUploaderFileName"], 
-    div[data-testid="stFileUploaderFileData"] {
-        color: #1A3A5F !important;
-    }
-
-    /* КНОПКА "СОЗДАТЬ PDF" — ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ */
+    /* КНОПКА "СОЗДАТЬ PDF" — ЦВЕТ КОФЕЙНЫЙ, ШРИФТ МОНТСЕРРАТ */
     .stButton>button p, .stButton>button div, .stButton>button {
-        color: #FFFFFF !important;
+        color: #F5E6D3 !important; /* Цвет фона */
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 18px !important;
     }
     .stButton>button {
         background-color: #1A3A5F !important;
         border-radius: 12px !important;
         border: none !important;
         width: 100% !important;
-        height: 3.5em !important;
-        font-weight: bold !important;
+        height: 3.8em !important;
         margin-top: 15px !important;
     }
 
-    /* КНОПКА "СКАЧАТЬ PDF" — ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ */
+    /* КНОПКА "СКАЧАТЬ PDF" — ЦВЕТ КОФЕЙНЫЙ, ШРИФТ МОНТСЕРРАТ */
     .stDownloadButton>button p, .stDownloadButton>button div, .stDownloadButton>button {
-        color: #FFFFFF !important;
+        color: #F5E6D3 !important; /* Цвет фона */
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 18px !important;
     }
     .stDownloadButton>button {
         background-color: #2E5A88 !important;
         border-radius: 12px !important;
         width: 100% !important;
-        height: 3.5em !important;
-        font-weight: bold !important;
+        height: 3.8em !important;
         margin-top: 15px !important;
+    }
+
+    div[data-testid="stFileUploaderFileName"], 
+    div[data-testid="stFileUploaderFileData"] {
+        color: #1A3A5F !important;
     }
 
     hr {
