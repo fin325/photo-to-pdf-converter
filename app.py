@@ -74,14 +74,20 @@ st.markdown("""
         color: #FF6B6B !important;
     }
 
+    /* ЦВЕТ ИМЕН ФАЙЛОВ И КРЕСТИКОВ УДАЛЕНИЯ */
     div[data-testid="stFileUploaderFileName"], 
     div[data-testid="stFileUploaderFileData"] {
         color: #1A3A5F !important;
     }
 
+    /* Делаем иконку крестика (удаления) темно-синей */
+    div[data-testid="stFileUploader"] svg {
+        fill: #1A3A5F !important;
+    }
+
     /* КНОПКА "СОЗДАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
     .stButton>button p, .stButton>button div, .stButton>button {
-        color: #F5E6D3 !important; /* Цвет кофейный как фон */
+        color: #F5E6D3 !important; 
         font-family: 'Montserrat', sans-serif !important;
         font-weight: 700 !important;
     }
@@ -96,7 +102,7 @@ st.markdown("""
 
     /* КНОПКА "СКАЧАТЬ PDF" — КОФЕЙНЫЙ ТЕКСТ И ШРИФТ MONTSERRAT */
     .stDownloadButton>button p, .stDownloadButton>button div, .stDownloadButton>button {
-        color: #F5E6D3 !important; /* Цвет кофейный как фон */
+        color: #F5E6D3 !important; 
         font-family: 'Montserrat', sans-serif !important;
         font-weight: 700 !important;
     }
