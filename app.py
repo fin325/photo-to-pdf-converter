@@ -43,26 +43,35 @@ st.markdown("""
         display: none !important;
     }
 
-    /* КНОПКА ЗАГРУЗКИ (Чистый текст) */
-    div[data-testid="stFileUploader"] button {
-        content: "📥 Загрузить фото";
-        background-color: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        color: transparent !important;
-        font-size: 0 !important;
-        height: 3.5em !important;
-        width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
+    /* 1. БАЗОВОЕ СОСТОЯНИЕ (Когда файлов НЕТ) */
+div[data-testid="stFileUploader"] button {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    height: 3.5em !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
 
-    div[data-testid="stFileUploader"] button::after {
-        content: "📥 Отменить";
-        font-size: 16px !important;
-        color: #FFFFFF !important;
-        font-weight: bold !important;
-    }
+/* Текст по умолчанию */
+div[data-testid="stFileUploader"] button::after {
+    content: "📥 Загрузить фото"; /* Текст для пустой кнопки */
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+
+/* 2. СОСТОЯНИЕ С ФАЙЛОМ (Когда файл ЗАГРУЖЕН) */
+/* Мы ищем кнопку, которая идет ПОСЛЕ контейнера с загруженными файлами */
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
+div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
+    content: "❌ Отменить всё" !important; /* Текст меняется на этот */
+    color: #FF4B4B !important; /* Можно сделать текст красноватым для акцента */
+}
+
 
     /* Кнопка "Создать PDF" */
     .stButton>button {
