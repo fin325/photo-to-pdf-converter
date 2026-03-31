@@ -72,7 +72,7 @@ st.markdown("""
     }
 
     div[data-testid="stFileUploader"] button::after {
-        content: "📥 Загрузить фото";
+        content: "📥 Выбрать";
         font-size: 16px !important;
         color: #F5E6D3 !important; 
         font-weight: bold !important;
@@ -86,8 +86,8 @@ st.markdown("""
 
     /* ПОДСКАЗКА "INFO" ВОЗЛЕ КРЕСТИКА УДАЛЕНИЯ */
     div[data-testid="stFileUploaderDeleteBtn"]::before {
-        content: "удалить";
-        font-size: 10px;
+        content: "Удалить";
+        font-size: 14px;
         color: #800000;
         margin-right: 5px;
         vertical-align: middle;
