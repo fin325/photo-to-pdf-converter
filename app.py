@@ -6,10 +6,10 @@ import base64
 # 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# 2. ФИНАЛЬНЫЙ CSS (Сверхточный выбор для белых МБ)
+# 2. ФИНАЛЬНЫЙ CSS (Исправляем цвет МБ и компактность)
 st.markdown("""
     <style>
-    /* Фон приложения */
+    /* Глубокий темно-синий матовый фон */
     .stApp {
         background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
         background-attachment: fixed;
@@ -72,19 +72,23 @@ st.markdown("""
         visibility: visible !important;
     }
 
-    /* --- ИСПРАВЛЕНИЕ ЦВЕТА МБ И ИМЕН ФАЙЛОВ --- */
+    /* --- СУПЕР-ХАК ДЛЯ БЕЛЫХ МБ И ИМЕН --- */
     /* Имя файла */
     div[data-testid="stFileUploaderFileName"] {
         color: #FFFFFF !important;
     }
     
-    /* Размер файла (МБ) - используем максимально широкий захват */
+    /* Принудительно делаем белыми МБ и любые данные о файле */
     div[data-testid="stFileUploaderFileData"], 
-    div[data-testid="stFileUploaderFileData"] > div, 
-    div[data-testid="stFileUploaderFileData"] > span,
-    .st-emotion-cache-1erivf3 { 
+    div[data-testid="stFileUploaderFileData"] * { 
         color: #FFFFFF !important;
         opacity: 1 !important;
+    }
+
+    /* Дополнительный захват для текста размера файла на мобильных */
+    [data-testid="stFileUploaderFileData"] span, 
+    [data-testid="stFileUploaderFileData"] div {
+        color: #FFFFFF !important;
     }
 
     /* Крестики удаления */
