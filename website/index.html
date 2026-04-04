@@ -14,15 +14,18 @@
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: #0f172a; /* Темный запасной фон */
-            overflow: hidden;
+            /* Изменено: прижимаем к верху вместо центра */
+            align-items: flex-start; 
+            background: #0f172a;
+            overflow-x: hidden;
+            /* Регулируйте этот отступ, чтобы поднять/опустить карточку */
+            padding-top: 20px; 
         }
 
-        /* Фоновое изображение с мягким размытием */
+        /* Фоновое изображение */
         .background {
             position: fixed;
             top: 0;
@@ -32,7 +35,7 @@
             background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80") center/cover no-repeat;
             filter: blur(15px) brightness(0.6);
             z-index: -1;
-            transform: scale(1.1); /* Убирает белые края при размытии */
+            transform: scale(1.1);
         }
 
         .card {
@@ -41,17 +44,19 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 40px;
-            width: 90%;
+            width: 95%; /* Чуть увеличил для мобильных */
             max-width: 420px;
             text-align: center;
             color: white;
             box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.15);
             animation: fadeIn 0.8s ease-out;
+            /* Убираем лишние внешние отступы, если они были */
+            margin-bottom: 20px; 
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -80,7 +85,7 @@
             border-radius: 16px;
             border: none;
             cursor: pointer;
-            background: #4A90E2; /* Синий цвет как в Streamlit для единства стиля */
+            background: #4A90E2;
             color: white;
             font-size: 18px;
             font-weight: 600;
@@ -110,7 +115,6 @@
             letter-spacing: 1px;
         }
 
-        /* Адаптация для мобильных */
         @media (max-width: 480px) {
             .card {
                 padding: 30px 20px;
