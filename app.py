@@ -4,10 +4,10 @@ from PIL import Image
 import io
 import os
 
-# 1. Настройка страницы
-st.set_page_config(page_title="Foto to PDF", page_icon="📄", layout="centered")
+# 1. Настройка страницы (Русский заголовок вкладки)
+st.set_page_config(page_title="Фото в PDF | Finevych A.", page_icon="📄", layout="centered")
 
-# 2. ГЛОБАЛЬНЫЙ CSS ДИЗАЙН (Меняем стандартный интерфейс Streamlit)
+# 2. ГЛОБАЛЬНЫЙ CSS ДИЗАЙН (Исправление видимости и русский текст)
 st.markdown("""
     <style>
     /* 1. Темный фон всего приложения и скрытие системной шапки */
@@ -21,7 +21,7 @@ st.markdown("""
         background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
         border: 2px dashed rgba(255, 255, 255, 0.4) !important;
         border-radius: 20px !important;
-        padding: 25px 15px !important;
+        padding: 30px 15px !important; /* Увеличен отступ сверху */
         box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2) !important;
         transition: all 0.3s ease !important;
     }
@@ -31,41 +31,31 @@ st.markdown("""
         box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4) !important;
     }
 
-    /* Прячем скучный стандартный текст Streamlit */
-    div[data-testid="stFileUploader"] section > div > span,
-    div[data-testid="stFileUploader"] section > div > small {
+    /* Агрессивное скрытие стандартных элементов Streamlit внутри загрузчика */
+    div[data-testid="stFileUploader"] section > div {
         display: none !important;
     }
 
-    /* Добавляем свою красивую надпись внутрь загрузчика */
-    div[data-testid="stFileUploader"] section > div::before {
+    /* Скрыть стандартную кнопку "Upload" */
+    div[data-testid="stFileUploader"] section button {
+        display: none !important;
+    }
+
+    /* Добавляем свою красивую надпись внутрь загрузчика (смещено вверх) */
+    div[data-testid="stFileUploader"] section::before {
         content: "☁️ Нажмите или перетащите фото сюда";
         color: white;
         font-size: 16px;
         font-weight: 600;
         display: block;
         text-align: center;
+        margin-top: -15px; /* Смещение вверх */
         margin-bottom: 12px;
     }
 
-    /* Стилизуем кнопку "Browse files" внутри загрузчика */
-    div[data-testid="stFileUploader"] button {
-        background-color: rgba(255, 255, 255, 0.15) !important;
-        color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 12px !important;
-        width: 100% !important;
-        font-size: 14px !important;
-        font-weight: bold !important;
-        transition: background-color 0.3s !important;
-    }
-    div[data-testid="stFileUploader"] button:hover {
-        background-color: rgba(255, 255, 255, 0.3) !important;
-    }
-
-    /* Цвет текста загруженных файлов */
-    div[data-testid="stFileUploaderFileName"] { color: #ffffff !important; font-weight: bold !important;}
-    div[data-testid="stFileUploaderFileData"] { color: rgba(255,255,255,0.7) !important; }
+    /* Цвет текста загруженных файлов (должен быть четким) */
+    div[data-testid="stFileUploaderFileName"] { color: #ffffff !important; font-weight: bold !important; font-size: 14px !important;}
+    div[data-testid="stFileUploaderFileData"] { color: rgba(255,255,255,0.7) !important; font-size: 12px !important;}
 
     /* 3. СТИЛИЗАЦИЯ ГЛАВНЫХ КНОПОК */
     /* Кнопка "Создать PDF" */
@@ -79,6 +69,7 @@ st.markdown("""
         font-weight: bold !important;
         width: 100% !important;
         box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3) !important;
+        margin-top: 15px !important; /* Отступ */
     }
     
     /* Кнопка "Скачать PDF" */
@@ -92,7 +83,15 @@ st.markdown("""
         font-weight: bold !important;
         width: 100% !important;
         box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3) !important;
-        margin-top: 10px !important;
+        margin-top: 15px !important; /* Отступ */
+    }
+    
+    /* Исправление отображения статусов */
+    .stAlert {
+        background-color: #1a223f !important;
+        color: white !important;
+        border: 1px solid #3b82f6 !important;
+        border-radius: 12px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -106,11 +105,13 @@ def render_header():
         # Высота всего 80px, так как там только заголовок!
         components.html(html_content, height=80, scrolling=False)
     else:
-        st.markdown("<h2 style='color:white; text-align:center;'>Foto to PDF</h2>", unsafe_allow_html=True)
+        # Резервный заголовок на русском
+        st.markdown("<h2 style='color:white; text-align:center;'>Фото в PDF | Finevych A.</h2>", unsafe_allow_html=True)
 
 render_header()
 
 # 4. ФУНКЦИОНАЛ ПРИЛОЖЕНИЯ (С уже примененным новым CSS)
+# Переведено на русский
 uploaded_files = st.file_uploader(
     "Загрузка", 
     type=["jpg", "jpeg", "png"],
@@ -121,14 +122,20 @@ uploaded_files = st.file_uploader(
 if uploaded_files:
     images = [Image.open(f).convert("RGB") for f in uploaded_files]
     
+    # Сообщение на русском
     st.markdown(f"<p style='color: #60a5fa; font-weight: bold; text-align: center; margin-top: -10px;'>✅ Готово к обработке: {len(images)} шт.</p>", unsafe_allow_html=True)
     
+    # Кнопка на русском
     if st.button("🚀 СОЗДАТЬ PDF", use_container_width=True):
+        # Статус на русском
         with st.spinner('Конвертация...'):
             pdf_out = io.BytesIO()
             images[0].save(pdf_out, format="PDF", save_all=True, append_images=images[1:])
             
+            # Статус на русском
             st.success("Документ успешно создан!")
+            
+            # Скачивание на русском
             st.download_button(
                 label="📥 СКАЧАТЬ ВАШ PDF",
                 data=pdf_out.getvalue(),
