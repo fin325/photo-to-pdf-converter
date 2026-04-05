@@ -37,13 +37,14 @@ st.markdown("""
     .main-title {
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
-        font-size: 26px !important; 
+        font-size: 18px !important; /* Уменьшен для одной строки на мобильных */
         font-weight: 800 !important;
         text-align: center !important;
-        letter-spacing: 0.5px !important; /* Делает шрифт чуть более "воздушным" и красивым */
-        text-shadow: 2px 2px 5px rgba(26, 58, 95, 0.4) !important; /* Аккуратная синяя тень */
+        letter-spacing: 0.5px !important; 
+        text-shadow: 2px 2px 5px rgba(26, 58, 95, 0.4) !important; 
         margin-top: 0px !important;
         margin-bottom: 20px !important; 
+        white-space: nowrap !important; /* Принудительно в одну строку */
     }
 
     /* ЗОНА ЗАГРУЗКИ */
@@ -59,12 +60,18 @@ st.markdown("""
         padding: 15px 10px !important; 
     }
 
-    /* Скрываем ВСЕ стандартные надписи и иконки Streamlit внутри зоны */
+    /* Скрываем ТОЛЬКО иконки и текст "Drag and drop". Надпись 200MB оставляем! */
     div[data-testid="stFileUploader"] section > svg,
     div[data-testid="stFileUploader"] section > i, 
-    div[data-testid="stFileUploader"] section > span,
-    div[data-testid="stFileUploader"] section > small {
+    div[data-testid="stFileUploader"] section > span {
         display: none !important;
+    }
+
+    /* Немного подкрашиваем надпись "200MB per file" в наш синий цвет */
+    div[data-testid="stFileUploader"] small {
+        color: #1A3A5F !important;
+        font-family: 'Montserrat', sans-serif !important;
+        opacity: 0.8 !important;
     }
 
     /* === НАШ НОВЫЙ КОРОТКИЙ ТЕКСТ === */
@@ -74,9 +81,10 @@ st.markdown("""
         text-align: center !important;
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
-        font-size: 16px !important;
+        font-size: 14px !important; /* Компактный шрифт */
         font-weight: 700 !important;
-        margin-bottom: 10px !important; 
+        margin-bottom: 5px !important; 
+        white-space: nowrap !important; /* Принудительно в одну строку */
     }
 
     /* КНОПКА ЗАГРУЗИТЬ (Внутри окна) */
@@ -147,7 +155,6 @@ st.markdown("""
 
 # 3. ИНТЕРФЕЙС
 st.markdown('<div class="glass-container">', unsafe_allow_html=True)
-# Заголовок обновлен на "Foto zu PDF"
 st.markdown('<p class="main-title">Foto zu PDF von Finevych A.</p>', unsafe_allow_html=True)
 
 uploaded_files = st.file_uploader(
