@@ -42,7 +42,7 @@ div[data-testid="stFileUploader"] {
     border: 2px dashed #1A3A5F !important;
     border-radius: 15px !important;
     position: relative;
-    padding-top: 40px !important; /* Место для описания сверху */
+    padding-top: 40px !important;
 }
 
 /* ТЕКСТ-ОПИСАНИЕ ВНУТРИ ОКНА ЗАГРУЗКИ */
@@ -55,6 +55,15 @@ div[data-testid="stFileUploader"]::before {
     color: #1A3A5F;
     font-weight: bold;
     opacity: 0.8;
+}
+
+div[data-testid="stFileUploaderFileName"],
+div[data-testid="stFileUploaderFileData"] {
+    color: #1A3A5F !important;
+}
+
+div[data-testid="stFileUploader"] svg {
+    fill: #1A3A5F !important;
 }
 
 /* КНОПКА ЗАГРУЗИТЬ */
@@ -71,19 +80,13 @@ div[data-testid="stFileUploader"] button {
 }
 
 div[data-testid="stFileUploader"] button::after {
-    content: "📥 Выбрать ";
+    content: "📥 Выбрать";
     font-size: 16px !important;
-    color: #F5E6D3 !important; 
+    color: #F5E6D3 !important;
     font-weight: bold !important;
 }
 
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] ~ button::after,
-div[data-testid="stFileUploader"] [data-file-count] ~ button::after {
-    content: "❌ Отменить всё" !important;
-    color: #800000 !important;
-}
-
-/* ПОДСКАЗКА "INFO" ВОЗЛЕ КРЕСТИКА УДАЛЕНИЯ */
+/* ПОДСКАЗКА ВОЗЛЕ КРЕСТИКА УДАЛЕНИЯ */
 div[data-testid="stFileUploaderDeleteBtn"]::before {
     content: "Удалить";
     font-size: 14px;
@@ -93,16 +96,7 @@ div[data-testid="stFileUploaderDeleteBtn"]::before {
     font-weight: bold;
 }
 
-div[data-testid="stFileUploaderFileName"], 
-div[data-testid="stFileUploaderFileData"] {
-    color: #1A3A5F !important;
-}
-
-div[data-testid="stFileUploader"] svg {
-    fill: #1A3A5F !important;
-}
-
-/* ТОЛЬКО КРЕСТИК УДАЛЕНИЯ */
+/* КРЕСТИК УДАЛЕНИЯ */
 div[data-testid="stFileUploader"] button[aria-label="Remove file"] svg,
 div[data-testid="stFileUploader"] button[data-testid="stFileUploaderDeleteBtn"] svg {
     fill: #800000 !important;
@@ -110,10 +104,10 @@ div[data-testid="stFileUploader"] button[data-testid="stFileUploaderDeleteBtn"] 
     transition: transform 0.2s ease !important;
 }
 
-/* КНОПКИ PDF */
+/* КНОПКИ */
 .stButton>button p, .stButton>button div, .stButton>button,
 .stDownloadButton>button p, .stDownloadButton>button div, .stDownloadButton>button {
-    color: #F5E6D3 !important; 
+    color: #F5E6D3 !important;
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 700 !important;
 }
@@ -161,14 +155,14 @@ images = [Image.open(f).convert(“RGB”) for f in uploaded_files]
 st.write(f"✅ Выбрано фотографий: **{len(images)}**")
 
 if convert_clicked:
-    with st.spinner('Обработка...'):
+    with st.spinner("Обработка..."):
         pdf_buffer = io.BytesIO()
         images[0].save(pdf_buffer, format="PDF", save_all=True, append_images=images[1:])
         pdf_bytes = pdf_buffer.getvalue()
-    
+
     st.success("PDF успешно создан!")
     st.download_button(label="📥 СКАЧАТЬ ВАШ PDF", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
-    
+
     b64 = base64.b64encode(pdf_bytes).decode()
     pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="600" style="border-radius:15px; border: 2px solid #1A3A5F; margin-top:20px;"></iframe>'
     st.markdown(pdf_display, unsafe_allow_html=True)
