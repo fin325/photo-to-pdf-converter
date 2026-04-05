@@ -11,6 +11,12 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
+    /* === УБИРАЕМ ЛИШНЕЕ ПРОСТРАНСТВО СВЕРХУ СТРАНИЦЫ === */
+    .block-container { 
+        padding-top: 1.5rem !important; /* Минимальный отступ от верхнего края экрана */
+        padding-bottom: 1rem !important;
+    }
+
     .stApp {
         background-color: #F5E6D3 !important;
     }
@@ -18,8 +24,8 @@ st.markdown("""
     .glass-container {
         background-color: #F5E6D3 !important;
         border: none !important;
-        padding: 10px;
-        margin-top: 10px;
+        padding: 0px 10px 10px 10px !important; /* Убрал отступ сверху контейнера */
+        margin-top: 0px !important;
         text-align: center;
     }
 
@@ -27,20 +33,27 @@ st.markdown("""
         color: #1A3A5F !important;
     }
 
+    /* ЗАГОЛОВОК */
     .main-title {
-        font-size: 28px;
+        font-size: 24px; /* Чуть уменьшил для компактности на мобилках */
         font-weight: 800;
-        margin-bottom: 25px;
+        margin-top: 0px !important;
+        margin-bottom: 15px !important; /* Уменьшил отступ под заголовком */
     }
 
     /* ЗОНА ЗАГРУЗКИ */
     div[data-testid="stFileUploader"] {
-        background-color: #EADBC8 !important; /* Кремовый фон загрузчика */
+        background-color: #EADBC8 !important;
         border: 2px dashed #1A3A5F !important;
         border-radius: 15px !important;
-        padding: 15px !important;
+        padding: 5px !important; /* Минимальный внешний отступ */
     }
     
+    /* Убираем стандартные огромные отступы внутри самой зоны */
+    div[data-testid="stFileUploader"] section {
+        padding: 15px 10px !important; 
+    }
+
     /* Скрываем ВСЕ стандартные надписи и иконки Streamlit внутри зоны */
     div[data-testid="stFileUploader"] section > svg,
     div[data-testid="stFileUploader"] section > i, 
@@ -49,18 +62,16 @@ st.markdown("""
         display: none !important;
     }
 
-    /* === НАШ НОВЫЙ ТЕКСТ-ПОДСКАЗКА === */
+    /* === НАШ НОВЫЙ КОРОТКИЙ ТЕКСТ === */
     div[data-testid="stFileUploader"] section::before {
-        content: "📸 Загрузите фото\\A Нажмите на эту область, чтобы выбрать файлы";
-        white-space: pre-wrap; /* Позволяет переносить текст на новую строку (символ \\A) */
+        content: "📸 Нажмите для выбора фото";
         display: block !important;
         text-align: center !important;
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
-        font-size: 18px !important;
+        font-size: 16px !important;
         font-weight: 700 !important;
-        line-height: 1.5 !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 10px !important; /* Компактный отступ до кнопки */
     }
 
     /* КНОПКА ЗАГРУЗИТЬ (Внутри окна) */
@@ -70,7 +81,7 @@ st.markdown("""
         border: none !important;
         width: 100% !important;
         border-radius: 10px !important;
-        padding: 10px !important;
+        padding: 8px !important; /* Сделал кнопку чуть тоньше */
     }
     
     /* Замена английского текста на кнопке */
@@ -125,8 +136,7 @@ st.markdown("""
         height: 3.5em !important;
     }
 
-    hr { border-top: 1px solid #1A3A5F !important; }
-    .block-container { padding-top: 2rem !important; }
+    hr { border-top: 1px solid #1A3A5F !important; margin: 1em 0 !important; }
     </style>
     """, unsafe_allow_html=True)
 
