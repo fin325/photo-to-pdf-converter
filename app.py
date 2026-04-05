@@ -9,11 +9,11 @@ st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered"
 # 2. Финальный блок стилей
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
 
     /* === УБИРАЕМ ЛИШНЕЕ ПРОСТРАНСТВО СВЕРХУ СТРАНИЦЫ === */
     .block-container { 
-        padding-top: 1.5rem !important; /* Минимальный отступ от верхнего края экрана */
+        padding-top: 1.5rem !important; 
         padding-bottom: 1rem !important;
     }
 
@@ -24,21 +24,26 @@ st.markdown("""
     .glass-container {
         background-color: #F5E6D3 !important;
         border: none !important;
-        padding: 0px 10px 10px 10px !important; /* Убрал отступ сверху контейнера */
+        padding: 0px 10px 10px 10px !important; 
         margin-top: 0px !important;
         text-align: center;
     }
 
-    h1, h2, h3, p, span, label, .main-title {
+    h1, h2, h3, p, span, label {
         color: #1A3A5F !important;
     }
 
-    /* ЗАГОЛОВОК */
+    /* === СТИЛЬ ЗАГОЛОВКА === */
     .main-title {
-        font-size: 24px; /* Чуть уменьшил для компактности на мобилках */
-        font-weight: 800;
+        color: #1A3A5F !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 26px !important; 
+        font-weight: 800 !important;
+        text-align: center !important;
+        letter-spacing: 0.5px !important; /* Делает шрифт чуть более "воздушным" и красивым */
+        text-shadow: 2px 2px 5px rgba(26, 58, 95, 0.4) !important; /* Аккуратная синяя тень */
         margin-top: 0px !important;
-        margin-bottom: 15px !important; /* Уменьшил отступ под заголовком */
+        margin-bottom: 20px !important; 
     }
 
     /* ЗОНА ЗАГРУЗКИ */
@@ -46,7 +51,7 @@ st.markdown("""
         background-color: #EADBC8 !important;
         border: 2px dashed #1A3A5F !important;
         border-radius: 15px !important;
-        padding: 5px !important; /* Минимальный внешний отступ */
+        padding: 5px !important; 
     }
     
     /* Убираем стандартные огромные отступы внутри самой зоны */
@@ -71,7 +76,7 @@ st.markdown("""
         font-family: 'Montserrat', sans-serif !important;
         font-size: 16px !important;
         font-weight: 700 !important;
-        margin-bottom: 10px !important; /* Компактный отступ до кнопки */
+        margin-bottom: 10px !important; 
     }
 
     /* КНОПКА ЗАГРУЗИТЬ (Внутри окна) */
@@ -81,7 +86,7 @@ st.markdown("""
         border: none !important;
         width: 100% !important;
         border-radius: 10px !important;
-        padding: 8px !important; /* Сделал кнопку чуть тоньше */
+        padding: 8px !important; 
     }
     
     /* Замена английского текста на кнопке */
@@ -142,7 +147,8 @@ st.markdown("""
 
 # 3. ИНТЕРФЕЙС
 st.markdown('<div class="glass-container">', unsafe_allow_html=True)
-st.markdown('<p class="main-title">Foto to PDF von Finevych A.</p>', unsafe_allow_html=True)
+# Заголовок обновлен на "Foto zu PDF"
+st.markdown('<p class="main-title">Foto zu PDF von Finevych A.</p>', unsafe_allow_html=True)
 
 uploaded_files = st.file_uploader(
     "upload", 
