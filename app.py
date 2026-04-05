@@ -3,7 +3,7 @@ from PIL import Image
 import io
 import base64
 
-# 1. Настройка страницы (ОБЯЗАТЕЛЬНО должна быть первой командой Streamlit)
+# 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
 # 2. Финальный блок стилей
@@ -35,34 +35,60 @@ st.markdown("""
 
     /* ЗОНА ЗАГРУЗКИ */
     div[data-testid="stFileUploader"] {
+        background-color: transparent !important;
+        padding: 0 !important;
+    }
+    
+    div[data-testid="stFileUploadDropzone"] {
         background-color: #EADBC8 !important;
         border: 2px dashed #1A3A5F !important;
         border-radius: 15px !important;
-        padding: 10px !important;
+        padding: 20px !important;
     }
-    
-    /* Скрываем стандартную иконку и текст "Drag and drop", но НЕ файлы */
-    div[data-testid="stFileUploader"] section > i, 
-    div[data-testid="stFileUploader"] section > span {
+
+    /* Скрываем стандартные иконки, текст "Drag and drop" и лимит "200MB" */
+    div[data-testid="stFileUploadDropzone"] > div > small,
+    div[data-testid="stFileUploadDropzone"] > div > span,
+    div[data-testid="stFileUploadDropzone"] > div > svg {
         display: none !important;
     }
 
-    /* КНОПКА ЗАГРУЗИТЬ */
-    div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] {
+    /* КНОПКА ЗАГРУЗИТЬ: растягиваем на всю панель */
+    div[data-testid="stFileUploadDropzone"] button {
         background-color: #1A3A5F !important;
-        color: white !important;
-        border: none !important;
+        color: transparent !important;
         width: 100% !important;
-        border-radius: 10px !important;
-        padding: 10px !important;
+        height: 60px !important;
+        border-radius: 12px !important;
+        border: none !important;
+        position: relative;
+        display: block !important;
+        margin: 0 auto !important;
     }
 
-    /* Настройка отображения списка файлов */
+    /* Свой текст для кнопки */
+    div[data-testid="stFileUploadDropzone"] button::after {
+        content: "📥 Выбрать фото";
+        color: #F5E6D3 !important;
+        position: absolute;
+        left: 0; 
+        right: 0; 
+        top: 0; 
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    /* Настройка отображения списка загруженных файлов */
     div[data-testid="stFileUploaderFile"] {
         background-color: rgba(26, 58, 95, 0.1) !important;
         border-radius: 10px !important;
         padding: 5px !important;
-        margin-top: 5px !important;
+        margin-top: 10px !important;
     }
 
     /* СТИЛИЗАЦИЯ КРЕСТИКА (КНОПКИ УДАЛЕНИЯ) */
@@ -131,7 +157,16 @@ if uploaded_files:
         st.download_button(label="📥 СКАЧАТЬ ВАШ PDF", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
         
         b64 = base64.b64encode(pdf_bytes).decode()
-        pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="600" style="border-radius:15px; border: 2px solid #1A3A5F; margin-top:20px;"></iframe>'
+        
+        # Используем <embed> и #view=Fit для масштабирования PDF внутри окна мобильного браузера
+        pdf_display = f'''
+        <embed src="data:application/pdf;base64,{b64}#view=Fit" 
+               type="application/pdf" 
+               width="100%" 
+               height="600" 
+               style="border-radius:15px; border: 2px solid #1A3A5F; margin-top:20px; background-color: white;">
+        </embed>
+        '''
         st.markdown(pdf_display, unsafe_allow_html=True)
 
     st.markdown("---")
