@@ -3,7 +3,7 @@ from PIL import Image
 import io
 import base64
 
-# 1. Настройка страницы (ОБЯЗАТЕЛЬНО должна быть первой командой Streamlit)
+# 1. Настройка страницы
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
 # 2. Финальный блок стилей
@@ -35,34 +35,35 @@ st.markdown("""
 
     /* ЗОНА ЗАГРУЗКИ */
     div[data-testid="stFileUploader"] {
-        background-color: #EADBC8 !important;
+        background-color: #EADBC8 !important; /* Кремовый фон загрузчика */
         border: 2px dashed #1A3A5F !important;
         border-radius: 15px !important;
-        padding: 10px !important;
+        padding: 15px !important;
     }
     
-    /* Скрываем стандартную иконку и текст "Drag and drop" */
+    /* Скрываем ВСЕ стандартные надписи и иконки Streamlit внутри зоны */
+    div[data-testid="stFileUploader"] section > svg,
     div[data-testid="stFileUploader"] section > i, 
-    div[data-testid="stFileUploader"] section > span {
+    div[data-testid="stFileUploader"] section > span,
+    div[data-testid="stFileUploader"] section > small {
         display: none !important;
     }
 
-    /* === МАГИЯ ЗДЕСЬ: Замена текста про 200MB === */
-    div[data-testid="stFileUploader"] section > small {
-        font-size: 0px !important; /* Скрываем оригинальный текст */
-    }
-    
-    div[data-testid="stFileUploader"] section > small::after {
-        content: "Нажмите чтобы выбрать фото" !important;
-        font-size: 16px !important;
-        color: #1A3A5F !important;
+    /* === НАШ НОВЫЙ ТЕКСТ-ПОДСКАЗКА === */
+    div[data-testid="stFileUploader"] section::before {
+        content: "📸 Загрузите фото\\A Нажмите на эту область, чтобы выбрать файлы";
+        white-space: pre-wrap; /* Позволяет переносить текст на новую строку (символ \\A) */
         display: block !important;
-        font-weight: 700 !important;
-        margin-bottom: 10px !important;
+        text-align: center !important;
+        color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        line-height: 1.5 !important;
+        margin-bottom: 15px !important;
     }
 
-    /* КНОПКА ЗАГРУЗИТЬ */
+    /* КНОПКА ЗАГРУЗИТЬ (Внутри окна) */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] {
         background-color: #1A3A5F !important;
         color: white !important;
@@ -72,20 +73,20 @@ st.markdown("""
         padding: 10px !important;
     }
     
-    /* === Замена английского текста на кнопке 'Browse files' === */
+    /* Замена английского текста на кнопке */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] p {
-        display: none !important; /* Скрываем "Browse files" */
+        display: none !important;
     }
     
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"]::after {
-        content: "Выбрать файлы" !important; /* Наш новый текст кнопки */
+        content: "Выбрать файлы" !important;
         display: block !important;
         font-weight: 700 !important;
         font-family: 'Montserrat', sans-serif !important;
         color: white !important;
     }
 
-    /* Настройка отображения списка файлов */
+    /* Настройка отображения списка добавленных файлов */
     div[data-testid="stFileUploaderFile"] {
         background-color: rgba(26, 58, 95, 0.1) !important;
         border-radius: 10px !important;
