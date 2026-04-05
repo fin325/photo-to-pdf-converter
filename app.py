@@ -41,10 +41,25 @@ st.markdown("""
         padding: 10px !important;
     }
     
-    /* Скрываем стандартную иконку и текст "Drag and drop", но НЕ файлы */
+    /* Скрываем стандартную иконку и текст "Drag and drop" */
     div[data-testid="stFileUploader"] section > i, 
     div[data-testid="stFileUploader"] section > span {
         display: none !important;
+    }
+
+    /* === МАГИЯ ЗДЕСЬ: Замена текста про 200MB === */
+    div[data-testid="stFileUploader"] section > small {
+        font-size: 0px !important; /* Скрываем оригинальный текст */
+    }
+    
+    div[data-testid="stFileUploader"] section > small::after {
+        content: "Нажмите чтобы выбрать фото" !important;
+        font-size: 16px !important;
+        color: #1A3A5F !important;
+        display: block !important;
+        font-weight: 700 !important;
+        margin-bottom: 10px !important;
+        font-family: 'Montserrat', sans-serif !important;
     }
 
     /* КНОПКА ЗАГРУЗИТЬ */
@@ -55,6 +70,19 @@ st.markdown("""
         width: 100% !important;
         border-radius: 10px !important;
         padding: 10px !important;
+    }
+    
+    /* === Замена английского текста на кнопке 'Browse files' === */
+    div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] p {
+        display: none !important; /* Скрываем "Browse files" */
+    }
+    
+    div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"]::after {
+        content: "Выбрать файлы" !important; /* Наш новый текст кнопки */
+        display: block !important;
+        font-weight: 700 !important;
+        font-family: 'Montserrat', sans-serif !important;
+        color: white !important;
     }
 
     /* Настройка отображения списка файлов */
