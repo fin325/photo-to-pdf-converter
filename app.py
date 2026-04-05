@@ -1,3 +1,11 @@
+import streamlit as st
+from PIL import Image
+import io
+import base64
+
+# 1. Настройка страницы (ОБЯЗАТЕЛЬНО должна быть первой командой Streamlit)
+st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
+
 # 2. Финальный блок стилей
 st.markdown("""
     <style>
@@ -39,7 +47,7 @@ st.markdown("""
         display: none !important;
     }
 
-    /* КНОПКА ЗАГРУЗИТЬ (делаем её красивой) */
+    /* КНОПКА ЗАГРУЗИТЬ */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] {
         background-color: #1A3A5F !important;
         color: white !important;
@@ -92,3 +100,41 @@ st.markdown("""
     .block-container { padding-top: 2rem !important; }
     </style>
     """, unsafe_allow_html=True)
+
+# 3. ИНТЕРФЕЙС
+st.markdown('<div class="glass-container">', unsafe_allow_html=True)
+st.markdown('<p class="main-title">Foto to PDF von Finevych A.</p>', unsafe_allow_html=True)
+
+uploaded_files = st.file_uploader(
+    "upload", 
+    type=["jpg", "jpeg", "png"],
+    accept_multiple_files=True,
+    label_visibility="collapsed"
+)
+
+convert_clicked = st.button("🚀 Создать PDF", disabled=not uploaded_files)
+st.markdown('</div>', unsafe_allow_html=True)
+
+# 4. ЛОГИКА
+if uploaded_files:
+    images = [Image.open(f).convert("RGB") for f in uploaded_files]
+    
+    st.write(f"✅ Выбрано фотографий: **{len(images)}**")
+    
+    if convert_clicked:
+        with st.spinner('Обработка...'):
+            pdf_buffer = io.BytesIO()
+            images[0].save(pdf_buffer, format="PDF", save_all=True, append_images=images[1:])
+            pdf_bytes = pdf_buffer.getvalue()
+        
+        st.success("PDF успешно создан!")
+        st.download_button(label="📥 СКАЧАТЬ ВАШ PDF", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
+        
+        b64 = base64.b64encode(pdf_bytes).decode()
+        pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="600" style="border-radius:15px; border: 2px solid #1A3A5F; margin-top:20px;"></iframe>'
+        st.markdown(pdf_display, unsafe_allow_html=True)
+
+    st.markdown("---")
+    cols = st.columns(4)
+    for i, img in enumerate(images):
+        cols[i % 4].image(img, use_container_width=True)
