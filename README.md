@@ -40,12 +40,17 @@ Konvertiert JPG/PNG-Fotos in eine mehrseitige PDF-Datei. Läuft vollständig im 
 
 ```
 photo-to-pdf-converter/
+├── .github/
+│   └── workflows/
+│       └── python-tests.yml  # CI/CD Pipeline
+├── img/                      # Bilder / Assets
+├── website/
+│   ├── index.html            # Landing Page
+│   └── requirements.txt      # Web-Abhängigkeiten
 ├── app.py                    # Streamlit-Anwendung
 ├── test_converter.py         # pytest-Tests
-├── requirements.txt          # Abhängigkeiten
-└── .github/
-    └── workflows/
-        └── python-tests.yml  # CI/CD Pipeline
+├── .gitignore
+└── README.md
 ```
 
 -----
@@ -86,7 +91,7 @@ test_converter.py::test_large_image_converts_to_pdf      PASSED
 ```bash
 git clone https://github.com/fin325/photo-to-pdf-converter.git
 cd photo-to-pdf-converter
-pip install -r requirements.txt
+pip install pillow streamlit
 streamlit run app.py
 ```
 
@@ -94,6 +99,7 @@ streamlit run app.py
 
 ## 👨‍💻 Autor
 
-**Artem Finevych** — Hattingen, NRW
+**Artem Finevych** — Hattingen, NRW  
+Projekt erstellt als Portfolio für IT-Ausbildung (Fachinformatiker Anwendungsentwicklung)
 
 🔗 [digital-mobil-deutschland.vercel.app](https://digital-mobil-deutschland.vercel.app)
