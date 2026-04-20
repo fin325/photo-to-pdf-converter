@@ -99,7 +99,5 @@ streamlit run app.py
 
 ## 👨‍💻 Autor
 
-**Artem Finevych** — Hattingen, NRW  
-Projekt erstellt als Portfolio für IT-Ausbildung (Fachinformatiker Anwendungsentwicklung)
-
+**Artem Finevych** — Hattingen, NRW
 🔗 [digital-mobil-deutschland.vercel.app](https://digital-mobil-deutschland.vercel.app)
