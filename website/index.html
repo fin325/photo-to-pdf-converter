@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foto to PDF | Finevych A.</title>
 
     <style>
+        /* Grundlegende Stile zurücksetzen / Сброс базовых стилей / Reset basic styles */
         * {
             margin: 0;
             padding: 0;
@@ -13,16 +14,17 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
+        /* Seitenlayout / Макет страницы / Page layout */
         body {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #0f172a; /* Темный запасной фон */
+            background: #0f172a; /* Dunkler Fallback-Hintergrund / Тёмный запасной фон / Dark fallback background */
             overflow: hidden;
         }
 
-        /* Фоновое изображение с мягким размытием */
+        /* Hintergrundbild mit Weichzeichner / Фоновое изображение с размытием / Background image with blur */
         .background {
             position: fixed;
             top: 0;
@@ -32,9 +34,10 @@
             background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80") center/cover no-repeat;
             filter: blur(15px) brightness(0.6);
             z-index: -1;
-            transform: scale(1.1); /* Убирает белые края при размытии */
+            transform: scale(1.1); /* Weiße Ränder beim Weichzeichnen entfernen / Убирает белые края при размытии / Removes white edges when blurring */
         }
 
+        /* Glasmorphismus-Karte / Карточка со стеклянным эффектом / Glassmorphism card */
         .card {
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -50,11 +53,13 @@
             animation: fadeIn 0.8s ease-out;
         }
 
+        /* Einblendanimation / Анимация появления / Fade-in animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Titelstil / Стиль заголовка / Title style */
         h1 {
             font-size: 26px;
             font-weight: 700;
@@ -63,6 +68,7 @@
             line-height: 1.2;
         }
 
+        /* Untertitelstil / Стиль подзаголовка / Subtitle style */
         p {
             font-size: 16px;
             opacity: 0.7;
@@ -70,17 +76,19 @@
             font-weight: 300;
         }
 
+        /* Link-Dekoration entfernen / Убираем декорацию ссылки / Remove link decoration */
         .btn-link {
             text-decoration: none;
         }
 
+        /* Hauptschaltfläche / Основная кнопка / Main button */
         .btn {
             width: 100%;
             padding: 16px;
             border-radius: 16px;
             border: none;
             cursor: pointer;
-            background: #4A90E2; /* Синий цвет как в Streamlit для единства стиля */
+            background: #4A90E2; /* Blau passend zum Streamlit-Stil / Синий как в Streamlit / Blue matching Streamlit style */
             color: white;
             font-size: 18px;
             font-weight: 600;
@@ -92,16 +100,19 @@
             gap: 10px;
         }
 
+        /* Hover-Effekt der Schaltfläche / Эффект наведения кнопки / Button hover effect */
         .btn:hover {
             background: #357ABD;
             transform: translateY(-3px);
             box-shadow: 0 15px 25px rgba(74, 144, 226, 0.4);
         }
 
+        /* Klick-Effekt der Schaltfläche / Эффект нажатия кнопки / Button click effect */
         .btn:active {
             transform: scale(0.98);
         }
 
+        /* Fußzeilentext / Текст подвала / Footer text */
         .footer-text {
             margin-top: 25px;
             font-size: 12px;
@@ -110,7 +121,7 @@
             letter-spacing: 1px;
         }
 
-        /* Адаптация для мобильных */
+        /* Anpassung für mobile Geräte / Адаптация для мобильных / Mobile adaptation */
         @media (max-width: 480px) {
             .card {
                 padding: 30px 20px;
@@ -123,15 +134,18 @@
 </head>
 <body>
 
+<!-- Hintergrundbild / Фоновое изображение / Background image -->
 <div class="background"></div>
 
+<!-- Hauptkarte / Основная карточка / Main card -->
 <div class="card">
     <h1>📄 Foto to PDF<br>von Finevych A.</h1>
-    <p>Профессиональный инструмент для быстрой конвертации ваших фото в PDF документы</p>
+    <p>Professionelles Werkzeug zur schnellen Konvertierung Ihrer Fotos in PDF-Dokumente</p>
 
+    <!-- Link zur Streamlit-App / Ссылка на приложение Streamlit / Link to Streamlit app -->
     <a href="https://your-app.streamlit.app" class="btn-link" target="_blank">
         <button class="btn">
-            <span>🚀 Начать работу</span>
+            <span>🚀 Jetzt starten</span>
         </button>
     </a>
 
