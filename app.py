@@ -3,15 +3,15 @@ from PIL import Image
 import io
 import base64
 
-# 1. Настройка страницы
+# 1. Seiteneinstellungen / Настройка страницы / Page configuration
 st.set_page_config(page_title="Foto to PDF", page_icon="📸", layout="centered")
 
-# 2. Финальный блок стилей
+# 2. Stilblock / Блок стилей / Style block
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
 
-    /* === УБИРАЕМ ЛИШНЕЕ ПРОСТРАНСТВО СВЕРХУ СТРАНИЦЫ === */
+    /* === OBEREN ABSTAND DER SEITE ENTFERNEN / УБИРАЕМ ЛИШНЕЕ ПРОСТРАНСТВО СВЕРХУ / REMOVE TOP PAGE PADDING === */
     .block-container { 
         padding-top: 1.5rem !important; 
         padding-bottom: 1rem !important;
@@ -33,21 +33,21 @@ st.markdown("""
         color: #1A3A5F !important;
     }
 
-    /* === СТИЛЬ ЗАГОЛОВКА === */
+    /* === TITELSTIL / СТИЛЬ ЗАГОЛОВКА / TITLE STYLE === */
     .main-title {
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
-        font-size: 18px !important; /* Уменьшен для одной строки на мобильных */
+        font-size: 18px !important;
         font-weight: 800 !important;
         text-align: center !important;
         letter-spacing: 0.5px !important; 
         text-shadow: 2px 2px 5px rgba(26, 58, 95, 0.4) !important; 
         margin-top: 0px !important;
         margin-bottom: 20px !important; 
-        white-space: nowrap !important; /* Принудительно в одну строку */
+        white-space: nowrap !important;
     }
 
-    /* ЗОНА ЗАГРУЗКИ */
+    /* UPLOAD-BEREICH / ЗОНА ЗАГРУЗКИ / UPLOAD AREA */
     div[data-testid="stFileUploader"] {
         background-color: #EADBC8 !important;
         border: 2px dashed #1A3A5F !important;
@@ -55,39 +55,39 @@ st.markdown("""
         padding: 5px !important; 
     }
     
-    /* Убираем стандартные огромные отступы внутри самой зоны */
+    /* Standardabstände im Upload-Bereich entfernen / Убираем стандартные отступы внутри зоны / Remove default padding inside upload area */
     div[data-testid="stFileUploader"] section {
         padding: 15px 10px !important; 
     }
 
-    /* Скрываем ТОЛЬКО иконки и текст "Drag and drop". Надпись 200MB оставляем! */
+    /* Nur Icons und "Drag and drop" Text ausblenden / Скрываем иконки и текст "Drag and drop" / Hide icons and "Drag and drop" text */
     div[data-testid="stFileUploader"] section > svg,
     div[data-testid="stFileUploader"] section > i, 
     div[data-testid="stFileUploader"] section > span {
         display: none !important;
     }
 
-    /* Немного подкрашиваем надпись "200MB per file" в наш синий цвет */
+    /* "200MB per file" Hinweis einfärben / Подкрашиваем надпись "200MB per file" / Color the "200MB per file" hint */
     div[data-testid="stFileUploader"] small {
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
         opacity: 0.8 !important;
     }
 
-    /* === НАШ НОВЫЙ КОРОТКИЙ ТЕКСТ === */
+    /* === EIGENER UPLOAD-TEXT / НАШ КОРОТКИЙ ТЕКСТ / CUSTOM UPLOAD TEXT === */
     div[data-testid="stFileUploader"] section::before {
-        content: "📸 Нажмите для выбора фото";
+        content: "📸 Foto auswählen";
         display: block !important;
         text-align: center !important;
         color: #1A3A5F !important;
         font-family: 'Montserrat', sans-serif !important;
-        font-size: 14px !important; /* Компактный шрифт */
+        font-size: 14px !important;
         font-weight: 700 !important;
         margin-bottom: 5px !important; 
-        white-space: nowrap !important; /* Принудительно в одну строку */
+        white-space: nowrap !important;
     }
 
-    /* КНОПКА ЗАГРУЗИТЬ (Внутри окна) */
+    /* UPLOAD-SCHALTFLÄCHE (innerhalb des Bereichs) / КНОПКА ЗАГРУЗИТЬ (внутри окна) / UPLOAD BUTTON (inside area) */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] {
         background-color: #1A3A5F !important;
         color: white !important;
@@ -97,20 +97,21 @@ st.markdown("""
         padding: 8px !important; 
     }
     
-    /* Замена английского текста на кнопке */
+    /* Englischen Buttontext ausblenden / Замена английского текста на кнопке / Hide default English button text */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"] p {
         display: none !important;
     }
     
+    /* Deutschen Buttontext einblenden / Показываем немецкий текст кнопки / Show German button text */
     div[data-testid="stFileUploader"] button[data-testid="stBaseButton-secondary"]::after {
-        content: "Выбрать файлы" !important;
+        content: "Dateien auswählen" !important;
         display: block !important;
         font-weight: 700 !important;
         font-family: 'Montserrat', sans-serif !important;
         color: white !important;
     }
 
-    /* Настройка отображения списка добавленных файлов */
+    /* Darstellung der hochgeladenen Dateiliste / Настройка отображения списка файлов / Uploaded file list display */
     div[data-testid="stFileUploaderFile"] {
         background-color: rgba(26, 58, 95, 0.1) !important;
         border-radius: 10px !important;
@@ -118,7 +119,7 @@ st.markdown("""
         margin-top: 5px !important;
     }
 
-    /* СТИЛИЗАЦИЯ КРЕСТИКА (КНОПКИ УДАЛЕНИЯ) */
+    /* LÖSCH-SCHALTFLÄCHE STILISIERUNG / СТИЛИЗАЦИЯ КРЕСТИКА (КНОПКИ УДАЛЕНИЯ) / DELETE BUTTON STYLING */
     button[data-testid="stFileUploaderDeleteBtn"] {
         color: #800000 !important;
     }
@@ -128,7 +129,7 @@ st.markdown("""
         transform: scale(1.2);
     }
 
-    /* КНОПКИ PDF */
+    /* PDF-SCHALTFLÄCHEN / КНОПКИ PDF / PDF BUTTONS */
     .stButton>button p, .stButton>button,
     .stDownloadButton>button p, .stDownloadButton>button {
         color: #F5E6D3 !important; 
@@ -153,7 +154,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 3. ИНТЕРФЕЙС
+# 3. BENUTZEROBERFLÄCHE / ИНТЕРФЕЙС / USER INTERFACE
 st.markdown('<div class="glass-container">', unsafe_allow_html=True)
 st.markdown('<p class="main-title">Foto zu PDF von Finevych A.</p>', unsafe_allow_html=True)
 
@@ -164,29 +165,34 @@ uploaded_files = st.file_uploader(
     label_visibility="collapsed"
 )
 
-convert_clicked = st.button("🚀 Создать PDF", disabled=not uploaded_files)
+convert_clicked = st.button("🚀 PDF erstellen", disabled=not uploaded_files)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 4. ЛОГИКА
+# 4. PROGRAMMLOGIK / ЛОГИКА / PROGRAM LOGIC
 if uploaded_files:
+    # Bilder öffnen und in RGB konvertieren / Открываем изображения и конвертируем в RGB / Open images and convert to RGB
     images = [Image.open(f).convert("RGB") for f in uploaded_files]
     
-    st.write(f"✅ Выбрано фотографий: **{len(images)}**")
+    st.write(f"✅ Fotos ausgewählt: **{len(images)}**")
     
     if convert_clicked:
-        with st.spinner('Обработка...'):
+        # PDF erstellen / Создаём PDF / Create PDF
+        with st.spinner('Verarbeitung...'):
             pdf_buffer = io.BytesIO()
             images[0].save(pdf_buffer, format="PDF", save_all=True, append_images=images[1:])
             pdf_bytes = pdf_buffer.getvalue()
         
-        st.success("PDF успешно создан!")
-        st.download_button(label="📥 СКАЧАТЬ ВАШ PDF", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
+        st.success("PDF erfolgreich erstellt!")
+        # Download-Schaltfläche anzeigen / Показываем кнопку скачивания / Show download button
+        st.download_button(label="📥 DEIN PDF HERUNTERLADEN", data=pdf_bytes, file_name="result.pdf", mime="application/pdf")
         
+        # PDF-Vorschau im Browser / Предпросмотр PDF в браузере / PDF preview in browser
         b64 = base64.b64encode(pdf_bytes).decode()
         pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="100%" height="600" style="border-radius:15px; border: 2px solid #1A3A5F; margin-top:20px;"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
 
     st.markdown("---")
+    # Vorschau der hochgeladenen Fotos in 4 Spalten / Предпросмотр фото в 4 колонки / Preview uploaded photos in 4 columns
     cols = st.columns(4)
     for i, img in enumerate(images):
         cols[i % 4].image(img, use_container_width=True)
